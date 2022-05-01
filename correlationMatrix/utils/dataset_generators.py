@@ -37,8 +37,7 @@ def generate_random_matrix(n=10):
     C = np.outer(b, b)
     for i in range(n):
         C[i, i] = 1
-    myMatrix = cm.CorrelationMatrix(values=C)
-    return myMatrix
+    return cm.CorrelationMatrix(values=C)
 
 
 def multivariate_normal(correlationmatrix, sample):
@@ -60,7 +59,7 @@ def multivariate_normal(correlationmatrix, sample):
 
     mean = np.zeros(correlationmatrix.dimension)
     data = np.random.multivariate_normal(mean, correlationmatrix.matrix, sample)
-    columns = ['S' + str(i) for i in range(0, correlationmatrix.dimension)]
+    columns = [f'S{str(i)}' for i in range(correlationmatrix.dimension)]
     return pd.DataFrame(data, columns=columns)
 
 
@@ -92,12 +91,11 @@ def capm_model(n, b, sample):
     print(returns.shape)
     data = np.append(returns, market_factor, 0)
     print(data.shape)
-    columns = ['S' + str(i) for i in range(0, n)]
+    columns = [f'S{str(i)}' for i in range(n)]
     columns.append('Market Factor')
     print(columns)
     print(data[:, :5])
-    df = pd.DataFrame(data.transpose(), columns=columns)
-    return df
+    return pd.DataFrame(data.transpose(), columns=columns)
 
 
 def apt_model(n, b, m, rho, sample):
@@ -139,11 +137,10 @@ def apt_model(n, b, m, rho, sample):
 
     data = np.append(returns, market_factors, 0)
     print(data.shape)
-    columns = ['S' + str(i) for i in range(0, n)] + ['F' + str(i) for i in range(0, m)]
+    columns = [f'S{str(i)}' for i in range(n)] + [f'F{str(i)}' for i in range(m)]
     print(columns)
     print(data[:, :5])
-    df = pd.DataFrame(data.transpose(), columns=columns)
-    return df
+    return pd.DataFrame(data.transpose(), columns=columns)
 
 
 def sector_model(n, b, rho, sample):
@@ -185,7 +182,10 @@ def sector_model(n, b, rho, sample):
     # put entity and sector returns together
     data = np.append(returns, market_factors, 0)
 
-    columns = ['S' + str(i) for i in range(0, n * m)] + ['F' + str(i) for i in range(0, m)]
+    columns = [f'S{str(i)}' for i in range(n * m)] + [
+        f'F{str(i)}' for i in range(m)
+    ]
+
     df = pd.DataFrame(data.transpose(), columns=columns)
     print(df.head(5))
     return df

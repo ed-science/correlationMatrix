@@ -17,11 +17,12 @@
 
 
 """
+
 import correlationMatrix as cm
 
 from correlationMatrix import source_path
 
-dataset_path = source_path + "datasets/"
+dataset_path = f"{source_path}datasets/"
 
 # Initialize a correlation matrix from the available examples
 myMatrix = cm.CorrelationMatrix()

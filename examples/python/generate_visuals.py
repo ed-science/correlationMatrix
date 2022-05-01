@@ -25,7 +25,7 @@ Example workflows using correlationMatrix and matplotlib to generate visualizati
 
 """
 
-dataset_path = source_path + "datasets/"
+dataset_path = f"{source_path}datasets/"
 example = 1
 
 if example == 1:
@@ -40,7 +40,7 @@ if example == 1:
     cax = ax1.imshow(myMatrix.matrix, interpolation="nearest", cmap=cmap)
     ax1.grid(True)
     plt.title('Vandermonde Correlation')
-    fig.colorbar(cax, ticks=[i * 0.1 for i in range(0, 11)])
+    fig.colorbar(cax, ticks=[i * 0.1 for i in range(11)])
     # plt.show()
     plt.savefig('vandermonde.png')
 

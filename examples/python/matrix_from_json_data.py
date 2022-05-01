@@ -20,6 +20,7 @@ from timeseries data in json format
 
 """
 
+
 import pandas as pd
 import numpy as np
 
@@ -28,31 +29,31 @@ from correlationMatrix import source_path
 from correlationMatrix.utils.preprocessing import construct_returns, \
     normalize_log_returns, json_file_to_frame
 
-input_dataset_path = source_path + "datasets/"
-output_dataset_path = source_path + "datasets/"
+input_dataset_path = f"{source_path}datasets/"
+output_dataset_path = f"{source_path}datasets/"
 
 Step = 4  # Change this to create intermediate data files
 
 if Step == 1:
     print("> Load the data from a json file")
-    input_filename = output_dataset_path + 'json_example.json'
-    output_filename = output_dataset_path + 'json_example.csv'
+    input_filename = f'{output_dataset_path}json_example.json'
+    output_filename = f'{output_dataset_path}json_example.csv'
     json_file_to_frame(input_filename, output_filename)
 elif Step == 2:
     print("> Calculate returns and save to disk")
-    in_filename = output_dataset_path + 'json_example.csv'
-    out_filename = output_dataset_path + 'json_example_log_returns.csv'
+    in_filename = f'{output_dataset_path}json_example.csv'
+    out_filename = f'{output_dataset_path}json_example_log_returns.csv'
     construct_returns(in_filename, out_filename)
 elif Step == 3:
     print("> Calculate normalized returns and save to disk")
-    in_filename = output_dataset_path + 'json_example_log_returns.csv'
-    out_filename = output_dataset_path + 'json_example_scaled_returns.csv'
+    in_filename = f'{output_dataset_path}json_example_log_returns.csv'
+    out_filename = f'{output_dataset_path}json_example_scaled_returns.csv'
     mean, std = normalize_log_returns(in_filename, out_filename)
     print('Normalized Means: ', mean)
     print('Normalized Stddev: ', std)
 elif Step == 4:
     print("> Calculate empirical correlation matrix")
-    in_filename = output_dataset_path + 'json_example_scaled_returns.csv'
+    in_filename = f'{output_dataset_path}json_example_scaled_returns.csv'
     myMatrix = cm.EmpiricalCorrelationMatrix()
     data = pd.read_csv(in_filename)
     myMatrix.fit(data)
