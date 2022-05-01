@@ -18,13 +18,14 @@ run the correlationMatrix test suite
 
 """
 
+
 import unittest
 import sys
 from correlationMatrix import source_path
 sys.path.append(source_path)
 
 loader = unittest.TestLoader()
-start_dir = source_path + 'tests'
+start_dir = f'{source_path}tests'
 suite = loader.discover(start_dir)
 
 runner = unittest.TextTestRunner()

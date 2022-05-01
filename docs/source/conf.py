@@ -17,39 +17,15 @@ import os
 
 sys.path.insert(0, os.path.abspath('../../'))
 
-__version__ = '0.2.0'
-
 # -- Project information -----------------------------------------------------
 
 project = 'correlationMatrix'
 copyright = '2019-2022, Open Risk'
-author = 'Open Risk'
-
 # The short X.Y version
 version = ''
+__version__ = '0.2.0'
 # The full version, including alpha/beta/rc tags
 release = __version__
-
-# -- General configuration ---------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#
-# needs_sphinx = '1.0'
-
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.coverage',
-    'sphinx.ext.imgmath',
-    'sphinx.ext.autosectionlabel',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.todo',
-    'sphinx.ext.napoleon',
-]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -156,6 +132,7 @@ latex_documents = [
      'Open Risk', 'manual'),
 ]
 
+author = 'Open Risk'
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
@@ -176,9 +153,19 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-# -- Extension configuration -------------------------------------------------
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.coverage',
+    'sphinx.ext.imgmath',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.todo',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+]
 
-extensions.append('sphinx.ext.todo')
 todo_include_todos = True
 
 # extensions.append('sphinx_automodapi.automodapi')

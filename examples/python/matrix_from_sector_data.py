@@ -22,6 +22,7 @@ Use utils/fetch_equity_data.py to fetch Yahoo Finance equity data
 
 """
 
+
 import pandas as pd
 
 import correlationMatrix as cm
@@ -30,31 +31,31 @@ from correlationMatrix.utils.preprocessing import csv_files_to_frame, construct_
     normalize_log_returns
 from datasets.SectorsNCompanies import yahoo_names as entity_list
 
-input_dataset_path = source_path + "datasets/yahoo_equity_data/"
-output_dataset_path = source_path + "datasets/"
+input_dataset_path = f"{source_path}datasets/yahoo_equity_data/"
+output_dataset_path = f"{source_path}datasets/"
 
 Step = 2
 
 if Step == 1:
     # Concatenate input data into a single dataframe and save to disk
     print("> Concatenate input data into a single dataframe and save to disk")
-    filename = output_dataset_path + 'yahoo_merged_data.csv'
+    filename = f'{output_dataset_path}yahoo_merged_data.csv'
     csv_files_to_frame(entity_list, input_dataset_path, filename)
 elif Step == 2:
     print("> Calculate log returns and save to disk")
-    in_filename = output_dataset_path + 'yahoo_merged_data.csv'
-    out_filename = output_dataset_path + 'yahoo_log_returns.csv'
+    in_filename = f'{output_dataset_path}yahoo_merged_data.csv'
+    out_filename = f'{output_dataset_path}yahoo_log_returns.csv'
     # Drop any columns we don't want to compute differences on
     drop_columns = ['Date']
     construct_log_returns(in_filename, out_filename, drop_columns)
 elif Step == 3:
     print("> Calculate normalized log returns and save to disk")
-    in_filename = output_dataset_path + 'yahoo_log_returns.csv'
-    out_filename = output_dataset_path + 'yahoo_scaled_returns.csv'
+    in_filename = f'{output_dataset_path}yahoo_log_returns.csv'
+    out_filename = f'{output_dataset_path}yahoo_scaled_returns.csv'
     normalize_log_returns(in_filename, out_filename)
 elif Step == 4:
     print("> Calculate sectoral factor model")
-    in_filename = output_dataset_path + 'yahoo_scaled_returns.csv'
+    in_filename = f'{output_dataset_path}yahoo_scaled_returns.csv'
     myMatrix = cm.FactorCorrelationMatrix()
     data = pd.read_csv(in_filename)
     myMatrix.fit(data, method='CreditMetrics')

@@ -24,13 +24,14 @@ Example workflows using correlationMatrix to generate synthetic data
 
 """
 
+
 import numpy as np
 
 import correlationMatrix as cm
 from correlationMatrix import source_path
 from correlationMatrix.utils import dataset_generators
 
-dataset_path = source_path + "datasets/"
+dataset_path = f"{source_path}datasets/"
 
 # select the data set to produce
 dataset = 4
@@ -47,7 +48,7 @@ if dataset == 1:
     # Generate multivariate normal data with that correlation matrix (a pandas frame)
     # s: number of samples per entity
     data = dataset_generators.multivariate_normal(myMatrix, sample=1000)
-    data.to_csv(dataset_path + 'synthetic_data1.csv', index=False)
+    data.to_csv(f'{dataset_path}synthetic_data1.csv', index=False)
 
 elif dataset == 2:
     # This dataset creates a correlation matrix between entities and an exogenous market factor
@@ -57,7 +58,7 @@ elif dataset == 2:
     # s: number of samples
     b = [0.2, 0.3, 0.5]
     data = dataset_generators.capm_model(n=len(b), b=b, sample=10000)
-    data.to_csv(dataset_path + 'synthetic_data2.csv', index=False)
+    data.to_csv(f'{dataset_path}synthetic_data2.csv', index=False)
 
 elif dataset == 3:
     # This dataset creates a correlation matrix between entities and a set of exogenous market factors
@@ -71,23 +72,15 @@ elif dataset == 3:
     m = 3
     rho = cm.CorrelationMatrix(type='UniformSingleFactor', rho=0.0, n=m)
     data = dataset_generators.apt_model(n=10, b=b, m=len(b), rho=rho, sample=10000)
-    data.to_csv(dataset_path + 'synthetic_data3.csv', index=False)
+    data.to_csv(f'{dataset_path}synthetic_data3.csv', index=False)
 
 elif dataset == 4:
-    # This dataset creates a sector based correlation matrix between entities
-    # emulating the well known Credit Metrics model
-    # NOTE: The sector factors are assumed correlated with uniform correlation
-    # this is useful for testing purposes
-    # n: number of entities per sector
-    # m: number of sectors
-    # rho: correlation matrix of factors of size m
-    # s: number of samples
-    n = 10
     m = 5
+    n = 10
     # b: vector of loadings of entities to the different sectors.
     # For simplicity each entity loads only to one sectoral factor and
     # all loadings are equal
     b = list(0.2 * np.ones(n))
     rho = cm.CorrelationMatrix(type='UniformSingleFactor', rho=0.3, n=m)
     data = dataset_generators.sector_model(n=n, b=b, rho=rho, sample=10000)
-    data.to_csv(dataset_path + 'synthetic_data4.csv', index=False)
+    data.to_csv(f'{dataset_path}synthetic_data4.csv', index=False)

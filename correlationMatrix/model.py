@@ -175,10 +175,6 @@ class CorrelationMatrix:
                 tmp2 = rho * (np.tri(n) - tmp1)
                 tmp3 = tmp2.transpose()
                 self.matrix = np.asarray(tmp1 + tmp2 + tmp3)
-            elif type == 'TBD':
-                pass
-            else:
-                pass
             # validation flag is set to True for modelled Matrices
             self.validated = True
         elif json_file is not None:
@@ -223,9 +219,8 @@ class CorrelationMatrix:
     def to_html(self, file=None):
         html_table = pd.DataFrame(self).to_html()
         if file is not None:
-            file = open(file, 'w')
-            file.write(html_table)
-            file.close()
+            with open(file, 'w') as file:
+                file.write(html_table)
         return html_table
 
     def fix_negative_values(self):
@@ -277,15 +272,18 @@ class CorrelationMatrix:
                         validation_messages.append(("Values larger than 1: ", (i, j, matrix[i, j])))
             # checking symmetry
             for i in range(matrix_size):
-                for j in range(matrix_size):
-                    if matrix[i, j] != matrix[j, i]:
-                        validation_messages.append(("Symmetry violating value: ", (i, j, matrix[i, j])))
+                validation_messages.extend(
+                    ("Symmetry violating value: ", (i, j, matrix[i, j]))
+                    for j in range(matrix_size)
+                    if matrix[i, j] != matrix[j, i]
+                )
+
             # checking positive semi-definiteness (non-negative eigenvalues)
             Eigenvalues, Decomposition = eigh(matrix)
             if not np.all(Eigenvalues > - EIGENVALUE_TOLERANCE):
                 validation_messages.append(("Matrix is not positive semi-definite"))
 
-        if len(validation_messages) == 0:
+        if not validation_messages:
             self.validated = True
             self.dimension = matrix.shape[0]
             return self.validated
@@ -347,8 +345,7 @@ class CorrelationMatrix:
         :return:
         """
         if method == 'cholesky':
-            L = np.linalg.cholesky(self.matrix)
-            return L
+            return np.linalg.cholesky(self.matrix)
         elif method == 'svd':
             U, S, VH = np.linalg.svd(self.matrix, full_matrices=True)
             return U, S, VH

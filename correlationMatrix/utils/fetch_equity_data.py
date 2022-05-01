@@ -21,19 +21,20 @@
 """
 
 
+
 import pandas_datareader as pdr
 from datetime import datetime
 import time
 
 from datasets.SectorsNCompanies import yahoo_names
 from correlationMatrix import source_path
-dataset_path = source_path + "datasets/yahoo_equity_data"
+dataset_path = f"{source_path}datasets/yahoo_equity_data"
 
 
 for entity in yahoo_names[13:]:
     symbol = entity[2]
     dataset = pdr.get_data_yahoo(symbols=symbol, start=datetime(2000, 1, 1), end=datetime(2019, 1, 1))
-    dataset.to_csv(dataset_path + "/" + symbol + ".csv")
+    dataset.to_csv(f"{dataset_path}/{symbol}.csv")
     time.sleep(2)
     print(symbol)
 
